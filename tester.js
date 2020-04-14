@@ -67,3 +67,76 @@ var romanToInt = function (s) {
 
     return num;
 };
+
+
+// SOLUTION 3
+
+var romanToInt = function (s) {
+    const map = new Map([
+        ['I', 1],
+        ['V', 5],
+        ['X', 10],
+        ['L', 50],
+        ['C', 100],
+        ['D', 500],
+        ['M', 1000],
+        [undefined, 0]
+    ]);
+    let result = 0;
+    for (let i = 0, j = 1; i < s.length; i++, j++) {
+        if (map.get(s[i]) < map.get(s[j])) {
+            result += map.get(s[j++]) - map.get(s[i++]);
+        } else {
+            result += map.get(s[i]);
+        }
+    }
+    return result;
+};
+
+
+// SOLUTION 4
+const romanToInt = (s) => {
+    const romans = {
+        'I': 1,
+        'V': 5,
+        'X': 10,
+        'L': 50,
+        'C': 100,
+        'D': 500,
+        'M': 1000
+    }
+
+    let sum = 0
+    let last = undefined
+    for (let i = 0; i < s.length; i++) {
+        sum += romans[s[i]]
+
+        if (last === 'I' && s[i] === 'V') {
+            sum -= 2
+        }
+
+        if (last === 'I' && s[i] === 'X') {
+            sum -= 2
+        }
+
+        if (last === 'X' && s[i] === 'L') {
+            sum -= 20
+        }
+
+        if (last === 'X' && s[i] === 'C') {
+            sum -= 20
+        }
+
+        if (last === 'C' && s[i] === 'D') {
+            sum -= 200
+        }
+
+        if (last === 'C' && s[i] === 'M') {
+            sum -= 200
+        }
+
+        last = s[i]
+    }
+
+    return sum
+}
